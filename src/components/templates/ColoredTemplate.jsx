@@ -1,145 +1,30 @@
 import React from 'react';
+import './ColoredTemplate.css';
 
 const ColoredTemplate = ({ data }) => {
   const { personalInfo, education, experience, practicalExperience, certifications, skills, languages } = data;
-
-  const styles = {
-    container: {
-      display: 'flex',
-      height: '100%',
-      fontFamily: 'Inter, sans-serif',
-      backgroundColor: '#fff',
-      color: '#333',
-    },
-    sidebar: {
-      width: '35%',
-      backgroundColor: '#1e3a8a', // Dark blue
-      color: '#fff',
-      padding: '40px 20px',
-    },
-    main: {
-      width: '65%',
-      padding: '40px',
-      backgroundColor: '#f8fafc', // Very light blue/gray
-    },
-    name: {
-      fontSize: '28px',
-      fontWeight: 'bold',
-      marginBottom: '5px',
-      color: '#fff',
-      lineHeight: '1.1'
-    },
-    roleTitle: {
-      fontSize: '16px',
-      color: '#93c5fd', // Light blue
-      marginBottom: '30px',
-      fontWeight: '500'
-    },
-    contactItem: {
-      fontSize: '13px',
-      marginBottom: '10px',
-      wordBreak: 'break-all'
-    },
-    sidebarTitle: {
-      fontSize: '18px',
-      fontWeight: 'bold',
-      marginTop: '30px',
-      marginBottom: '15px',
-      borderBottom: '2px solid #3b82f6',
-      paddingBottom: '5px',
-      color: '#fff'
-    },
-    mainTitle: {
-      fontSize: '22px',
-      fontWeight: 'bold',
-      color: '#1e3a8a',
-      borderBottom: '2px solid #bfdbfe',
-      paddingBottom: '5px',
-      marginBottom: '20px',
-      marginTop: '0'
-    },
-    text: {
-      fontSize: '14px',
-      lineHeight: '1.6'
-    },
-    expItem: {
-      marginBottom: '25px'
-    },
-    expHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'baseline',
-      marginBottom: '5px'
-    },
-    expRole: {
-      fontSize: '16px',
-      fontWeight: 'bold',
-      color: '#1e293b'
-    },
-    expDuration: {
-      fontSize: '13px',
-      color: '#2563eb',
-      fontWeight: '600'
-    },
-    expCompany: {
-      fontSize: '14px',
-      color: '#475569',
-      fontWeight: '500',
-      marginBottom: '8px'
-    },
-    eduItem: {
-      marginBottom: '20px'
-    },
-    eduDegree: {
-      fontSize: '15px',
-      fontWeight: 'bold',
-      color: '#1e293b'
-    },
-    eduSchool: {
-      fontSize: '14px',
-      color: '#475569'
-    },
-    eduYear: {
-      fontSize: '13px',
-      color: '#2563eb',
-      fontWeight: '600'
-    },
-    skillBadge: {
-      display: 'inline-block',
-      backgroundColor: '#3b82f6',
-      color: 'white',
-      padding: '4px 10px',
-      borderRadius: '20px',
-      fontSize: '12px',
-      margin: '0 8px 8px 0'
-    },
-    langItem: {
-      fontSize: '13px',
-      marginBottom: '5px'
-    }
-  };
 
   const skillArray = skills ? skills.split(',').map(s => s.trim()).filter(Boolean) : [];
   const langArray = languages ? languages.split(',').map(l => l.trim()).filter(Boolean) : [];
 
   return (
-    <div style={styles.container}>
+    <div className="colored-template">
       {/* Sidebar */}
-      <div style={styles.sidebar}>
-        <div style={styles.name}>{personalInfo.fullName || 'Your Name'}</div>
-        <div style={styles.roleTitle}>Professional</div>
+      <div className="colored-sidebar">
+        <div className="colored-name">{personalInfo.fullName || 'Your Name'}</div>
+        <div className="colored-role-title">Professional</div>
 
-        <div style={styles.sidebarTitle}>Contact</div>
-        {personalInfo.email && <div style={styles.contactItem}>{personalInfo.email}</div>}
-        {personalInfo.phone && <div style={styles.contactItem}>{personalInfo.phone}</div>}
-        {personalInfo.address && <div style={styles.contactItem}>{personalInfo.address}</div>}
+        <div className="colored-sidebar-title">Contact</div>
+        {personalInfo.email && <div className="colored-contact-item">{personalInfo.email}</div>}
+        {personalInfo.phone && <div className="colored-contact-item">{personalInfo.phone}</div>}
+        {personalInfo.address && <div className="colored-contact-item">{personalInfo.address}</div>}
 
         {skillArray.length > 0 && (
           <>
-            <div style={styles.sidebarTitle}>Skills</div>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            <div className="colored-sidebar-title">Skills</div>
+            <div className="colored-skills-container">
               {skillArray.map((skill, i) => (
-                <span key={i} style={styles.skillBadge}>{skill}</span>
+                <span key={i} className="colored-skill-badge">{skill}</span>
               ))}
             </div>
           </>
@@ -147,10 +32,10 @@ const ColoredTemplate = ({ data }) => {
 
         {langArray.length > 0 && (
           <>
-            <div style={styles.sidebarTitle}>Languages</div>
+            <div className="colored-sidebar-title">Languages</div>
             <div>
               {langArray.map((lang, i) => (
-                <div key={i} style={styles.langItem}>{lang}</div>
+                <div key={i} className="colored-lang-item">{lang}</div>
               ))}
             </div>
           </>
@@ -158,25 +43,25 @@ const ColoredTemplate = ({ data }) => {
       </div>
 
       {/* Main Content */}
-      <div style={styles.main}>
+      <div className="colored-main">
         {personalInfo.summary && (
           <>
-            <div style={styles.mainTitle}>Profile</div>
-            <p style={{ ...styles.text, marginBottom: '30px' }}>{personalInfo.summary}</p>
+            <div className="colored-main-title">Profile</div>
+            <p className="colored-text">{personalInfo.summary}</p>
           </>
         )}
 
         {experience && experience.length > 0 && (
           <>
-            <div style={styles.mainTitle}>Experience</div>
+            <div className="colored-main-title">Experience</div>
             {experience.map(exp => (
-              <div key={exp.id} style={styles.expItem}>
-                <div style={styles.expHeader}>
-                  <div style={styles.expRole}>{exp.role || 'Role Title'}</div>
-                  <div style={styles.expDuration}>{exp.duration || 'Duration'}</div>
+              <div key={exp.id} className="colored-item">
+                <div className="colored-item-header">
+                  <div className="colored-item-role">{exp.role || 'Role Title'}</div>
+                  <div className="colored-item-duration">{exp.duration || 'Duration'}</div>
                 </div>
-                <div style={styles.expCompany}>{exp.company || 'Company Name'}</div>
-                {exp.description && <p style={styles.text}>{exp.description}</p>}
+                <div className="colored-item-company">{exp.company || 'Company Name'}</div>
+                {exp.description && <p className="colored-text">{exp.description}</p>}
               </div>
             ))}
           </>
@@ -184,15 +69,15 @@ const ColoredTemplate = ({ data }) => {
 
         {practicalExperience && practicalExperience.length > 0 && (
           <>
-            <div style={styles.mainTitle}>Practical Experience</div>
+            <div className="colored-main-title">Practical Experience</div>
             {practicalExperience.map(exp => (
-              <div key={exp.id} style={styles.expItem}>
-                <div style={styles.expHeader}>
-                  <div style={styles.expRole}>{exp.project || 'Project Name'}</div>
-                  <div style={styles.expDuration}>{exp.duration || 'Duration'}</div>
+              <div key={exp.id} className="colored-item">
+                <div className="colored-item-header">
+                  <div className="colored-item-role">{exp.project || 'Project Name'}</div>
+                  <div className="colored-item-duration">{exp.duration || 'Duration'}</div>
                 </div>
-                <div style={styles.expCompany}>{exp.role || 'Role'}</div>
-                {exp.description && <p style={styles.text}>{exp.description}</p>}
+                <div className="colored-item-company">{exp.role || 'Role'}</div>
+                {exp.description && <p className="colored-text">{exp.description}</p>}
               </div>
             ))}
           </>
@@ -200,14 +85,14 @@ const ColoredTemplate = ({ data }) => {
 
         {education && education.length > 0 && (
           <>
-            <div style={styles.mainTitle}>Education</div>
+            <div className="colored-main-title">Education</div>
             {education.map(edu => (
-              <div key={edu.id} style={styles.eduItem}>
-                <div style={styles.expHeader}>
-                  <div style={styles.eduDegree}>{edu.degree || 'Degree Title'}</div>
-                  <div style={styles.eduYear}>{edu.year || 'Year'}</div>
+              <div key={edu.id} className="colored-item">
+                <div className="colored-item-header">
+                  <div className="colored-item-role">{edu.degree || 'Degree Title'}</div>
+                  <div className="colored-item-duration">{edu.year || 'Year'}</div>
                 </div>
-                <div style={styles.eduSchool}>{edu.school || 'School/University Name'}</div>
+                <div className="colored-item-company">{edu.school || 'School/University Name'}</div>
               </div>
             ))}
           </>
@@ -215,14 +100,14 @@ const ColoredTemplate = ({ data }) => {
 
         {certifications && certifications.length > 0 && (
           <>
-            <div style={styles.mainTitle}>Certifications</div>
+            <div className="colored-main-title">Certifications</div>
             {certifications.map(cert => (
-              <div key={cert.id} style={styles.eduItem}>
-                <div style={styles.expHeader}>
-                  <div style={styles.eduDegree}>{cert.name || 'Certification Name'}</div>
-                  <div style={styles.eduYear}>{cert.year || 'Year'}</div>
+              <div key={cert.id} className="colored-item">
+                <div className="colored-item-header">
+                  <div className="colored-item-role">{cert.name || 'Certification Name'}</div>
+                  <div className="colored-item-duration">{cert.year || 'Year'}</div>
                 </div>
-                <div style={styles.eduSchool}>{cert.issuer || 'Issuer'}</div>
+                <div className="colored-item-company">{cert.issuer || 'Issuer'}</div>
               </div>
             ))}
           </>

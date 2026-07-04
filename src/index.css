@@ -126,12 +126,14 @@ input, textarea {
 
 .template-container {
   background: white;
-  min-height: 297mm;
   width: 210mm;
+  height: 296mm; /* Marginally less than 297mm to prevent rounding spillover */
+  max-height: 296mm;
   margin: 0 auto;
   box-shadow: var(--shadow-lg);
   position: relative;
-  overflow: hidden;
+  overflow: hidden; /* Guarantee it never spans two pages */
+  box-sizing: border-box;
 }
 
 /* Mobile Responsiveness */

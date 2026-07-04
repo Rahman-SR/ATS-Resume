@@ -11,26 +11,18 @@ import './App.css';
 
 const initialData = {
   personalInfo: {
-    fullName: 'John Doe',
-    email: 'john@example.com',
-    phone: '(555) 123-4567',
-    address: 'New York, NY',
-    summary: 'A passionate professional looking for new opportunities to leverage my skills and experience.',
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    summary: '',
   },
-  education: [
-    { id: '1', school: 'University of Technology', degree: 'B.S. Computer Science', year: '2020' }
-  ],
-  experience: [
-    { id: '1', company: 'Tech Corp', role: 'Software Engineer', duration: '2021 - Present', description: 'Developed modern web applications using React and Node.js.' }
-  ],
-  practicalExperience: [
-    { id: '1', project: 'Open Source E-commerce', role: 'Contributor', duration: '2022', description: 'Implemented payment gateway integration.' }
-  ],
-  certifications: [
-    { id: '1', name: 'AWS Certified Solutions Architect', issuer: 'Amazon Web Services', year: '2022' }
-  ],
-  skills: 'React, JavaScript, HTML, CSS, Supabase',
-  languages: 'English (Native), Spanish (Intermediate)'
+  education: [],
+  experience: [],
+  practicalExperience: [],
+  certifications: [],
+  skills: '',
+  languages: ''
 };
 
 function App() {
@@ -106,11 +98,12 @@ function App() {
     
     // Configure html2pdf settings for high quality A4 output
     const opt = {
-      margin:       [0, 0, 0, 0], // Top, Left, Bottom, Right margins
+      margin:       0,
       filename:     `${resumeData.personalInfo.fullName || 'Resume'}_Resume.pdf`,
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true }, // scale: 2 ensures high-res text
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      html2canvas:  { scale: 2, useCORS: true, scrollY: 0 }, 
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak:    { mode: 'avoid-all' }
     };
 
     // Generate and save the PDF

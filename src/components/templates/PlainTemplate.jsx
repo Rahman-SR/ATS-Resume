@@ -1,86 +1,38 @@
 import React from 'react';
+import './PlainTemplate.css';
 
 const PlainTemplate = ({ data }) => {
   const { personalInfo, education, experience, practicalExperience, certifications, skills, languages } = data;
 
-  const styles = {
-    container: {
-      padding: '40px',
-      fontFamily: 'Times New Roman, serif',
-      color: '#000',
-      lineHeight: '1.4',
-      height: '100%',
-      backgroundColor: '#fff'
-    },
-    header: {
-      textAlign: 'center',
-      borderBottom: '2px solid #000',
-      paddingBottom: '20px',
-      marginBottom: '20px'
-    },
-    name: {
-      fontSize: '28px',
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-      marginBottom: '5px'
-    },
-    contact: {
-      fontSize: '14px'
-    },
-    sectionTitle: {
-      fontSize: '16px',
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-      borderBottom: '1px solid #000',
-      marginBottom: '10px',
-      paddingBottom: '3px',
-      marginTop: '20px'
-    },
-    item: {
-      marginBottom: '15px'
-    },
-    itemHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      fontWeight: 'bold',
-      fontSize: '15px'
-    },
-    itemSubText: {
-      fontStyle: 'italic',
-      marginBottom: '5px'
-    },
-    text: {
-      fontSize: '14px'
-    }
-  };
+  const skillArray = skills ? skills.split(',').map(s => s.trim()).filter(Boolean) : [];
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <div style={styles.name}>{personalInfo.fullName || 'Your Name'}</div>
-        <div style={styles.contact}>
+    <div className="plain-template">
+      <div className="plain-header">
+        <div className="plain-name">{personalInfo.fullName || 'Your Name'}</div>
+        <div className="plain-contact">
           {personalInfo.email} {personalInfo.phone && `| ${personalInfo.phone}`} {personalInfo.address && `| ${personalInfo.address}`}
         </div>
       </div>
 
       {personalInfo.summary && (
         <div>
-          <div style={styles.sectionTitle}>Professional Summary</div>
-          <p style={styles.text}>{personalInfo.summary}</p>
+          <div className="plain-section-title">Professional Summary</div>
+          <p className="plain-text">{personalInfo.summary}</p>
         </div>
       )}
 
       {experience && experience.length > 0 && (
         <div>
-          <div style={styles.sectionTitle}>Experience</div>
+          <div className="plain-section-title">Experience</div>
           {experience.map(exp => (
-            <div key={exp.id} style={styles.item}>
-              <div style={styles.itemHeader}>
+            <div key={exp.id} className="plain-item">
+              <div className="plain-item-header">
                 <span>{exp.role || 'Role Title'}</span>
                 <span>{exp.duration || 'Duration'}</span>
               </div>
-              <div style={styles.itemSubText}>{exp.company || 'Company Name'}</div>
-              {exp.description && <p style={styles.text}>{exp.description}</p>}
+              <div className="plain-item-subtext">{exp.company || 'Company Name'}</div>
+              {exp.description && <p className="plain-text">{exp.description}</p>}
             </div>
           ))}
         </div>
@@ -88,15 +40,15 @@ const PlainTemplate = ({ data }) => {
 
       {practicalExperience && practicalExperience.length > 0 && (
         <div>
-          <div style={styles.sectionTitle}>Practical Experience / Projects</div>
+          <div className="plain-section-title">Practical Experience / Projects</div>
           {practicalExperience.map(exp => (
-            <div key={exp.id} style={styles.item}>
-              <div style={styles.itemHeader}>
+            <div key={exp.id} className="plain-item">
+              <div className="plain-item-header">
                 <span>{exp.project || 'Project Name'}</span>
                 <span>{exp.duration || 'Duration'}</span>
               </div>
-              <div style={styles.itemSubText}>{exp.role || 'Role'}</div>
-              {exp.description && <p style={styles.text}>{exp.description}</p>}
+              <div className="plain-item-subtext">{exp.role || 'Role'}</div>
+              {exp.description && <p className="plain-text">{exp.description}</p>}
             </div>
           ))}
         </div>
@@ -104,14 +56,14 @@ const PlainTemplate = ({ data }) => {
 
       {education && education.length > 0 && (
         <div>
-          <div style={styles.sectionTitle}>Education</div>
+          <div className="plain-section-title">Education</div>
           {education.map(edu => (
-            <div key={edu.id} style={styles.item}>
-              <div style={styles.itemHeader}>
+            <div key={edu.id} className="plain-item">
+              <div className="plain-item-header">
                 <span>{edu.school || 'School Name'}</span>
                 <span>{edu.year || 'Year'}</span>
               </div>
-              <div style={styles.text}>{edu.degree || 'Degree'}</div>
+              <div className="plain-text">{edu.degree || 'Degree'}</div>
             </div>
           ))}
         </div>
@@ -119,30 +71,34 @@ const PlainTemplate = ({ data }) => {
 
       {certifications && certifications.length > 0 && (
         <div>
-          <div style={styles.sectionTitle}>Certifications</div>
+          <div className="plain-section-title">Certifications</div>
           {certifications.map(cert => (
-            <div key={cert.id} style={styles.item}>
-              <div style={styles.itemHeader}>
+            <div key={cert.id} className="plain-item">
+              <div className="plain-item-header">
                 <span>{cert.name || 'Certification Name'}</span>
                 <span>{cert.year || 'Year'}</span>
               </div>
-              <div style={styles.text}>{cert.issuer || 'Issuer'}</div>
+              <div className="plain-text">{cert.issuer || 'Issuer'}</div>
             </div>
           ))}
         </div>
       )}
 
-      {skills && (
+      {skillArray.length > 0 && (
         <div>
-          <div style={styles.sectionTitle}>Skills</div>
-          <p style={styles.text}>{skills}</p>
+          <div className="plain-section-title">Skills</div>
+          <div className="plain-skills-container">
+            {skillArray.map((skill, index) => (
+              <span key={index} className="plain-skill-item">{skill}</span>
+            ))}
+          </div>
         </div>
       )}
 
       {languages && (
         <div>
-          <div style={styles.sectionTitle}>Languages</div>
-          <p style={styles.text}>{languages}</p>
+          <div className="plain-section-title">Languages</div>
+          <p className="plain-text">{languages}</p>
         </div>
       )}
     </div>
