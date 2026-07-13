@@ -32,7 +32,15 @@
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: var(--pt-spacing-sm);
-  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
+.plain-job-title {
+  font-size: var(--pt-heading-size);
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: var(--pt-spacing-sm);
 }
 
 .plain-contact {

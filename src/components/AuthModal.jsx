@@ -4,6 +4,9 @@ import { X } from 'lucide-react';
 import './AuthModal.css';
 
 const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
+  // ==========================================
+  // STATE MANAGEMENT
+  // ==========================================
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,6 +15,10 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
   const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
+
+  // ==========================================
+  // FORM HANDLERS
+  // ==========================================
 
   // Handle the form submission for both Sign Up and Sign In
   const handleSubmit = async (e) => {

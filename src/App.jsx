@@ -2,19 +2,28 @@ import { useState, useRef, useEffect } from 'react';
 import ResumeForm from './components/ResumeForm';
 import PlainTemplate from './components/templates/PlainTemplate';
 import ColoredTemplate from './components/templates/ColoredTemplate';
+import MinimalTemplate from './components/templates/MinimalTemplate';
+import ElegantTemplate from './components/templates/ElegantTemplate';
 import AuthModal from './components/AuthModal';
 import HistoryModal from './components/HistoryModal';
 import html2pdf from 'html2pdf.js';
-import { Download, LayoutTemplate, LogOut, History } from 'lucide-react';
+import { Download, LogOut, History, User, FileText } from 'lucide-react';
 import supabase from './supabaseClient';
 import './App.css'; 
 
+// ==========================================
+// INITIAL DATA STRUCTURE
+// This defines the default empty state for a new resume.
+// ==========================================
 const initialData = {
   personalInfo: {
     fullName: '',
+    jobTitle: '',
     email: '',
     phone: '',
     address: '',
+    socialPlatform: 'LinkedIn',
+    socialLink: '',
     summary: '',
   },
   education: [],
@@ -22,7 +31,8 @@ const initialData = {
   practicalExperience: [],
   certifications: [],
   skills: '',
-  languages: ''
+  languages: '',
+  customDetails: []
 };
 
 function App() {
@@ -38,10 +48,15 @@ function App() {
   // Modal visibility states
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   
   // Reference to the DOM element that we will convert to PDF
   const componentRef = useRef();
 
+  // ==========================================
+  // COMPONENT LIFECYCLE & AUTHENTICATION
+  // ==========================================
+  
   // Run once when the component mounts to check if the user is already logged in
   useEffect(() => {
     // Check active sessions and sets the user
@@ -69,6 +84,10 @@ function App() {
     await supabase.auth.signOut();
   };
 
+  // ==========================================
+  // PDF GENERATION & SAVING
+  // ==========================================
+  
   // Handle generating and downloading the PDF
   const handlePrint = async () => {
     // Require user to be logged in before they can download
@@ -77,19 +96,24 @@ function App() {
       return;
     }
 
-    // Auto-save the current resume to the user's history in Supabase
+    // Auto-save the current resume to the user's history in Supabase using the rate-limited RPC
     try {
-      await supabase
-        .from('resumes')
-        .insert([
-          {
-            user_id: user.id,
-            data: resumeData,
-            template: template,
-          }
-        ]);
+      const { error } = await supabase.rpc('save_resume_rate_limited', {
+        p_data: resumeData,
+        p_template: template
+      });
+
+      if (error) {
+        if (error.message.includes('Rate limit exceeded')) {
+          alert('You have reached the maximum download limit (100 times per 15 minutes). Please try again later.');
+          return; // Stop the PDF generation
+        } else {
+          throw error;
+        }
+      }
     } catch (err) {
       console.error('Error auto-saving to history:', err);
+      // We don't block the download for generic errors to not ruin user experience
     }
 
     // Grab the DOM element containing the resume template
@@ -111,68 +135,84 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <div className="sidebar">
-        <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <h1 style={{ color: 'var(--primary-blue)', marginBottom: '0.5rem' }}>Resume Builder</h1>
-            <p style={{ color: 'var(--text-muted)' }}>Fill in your details to generate a professional resume.</p>
+    <>
+      {/* Top Header Bar */}
+      <header className="app-header">
+        <div className="header-left">
+          <div className="header-logo">
+            <FileText size={20} color="white" />
           </div>
+          <h1 className="header-title">Resume Builder</h1>
+        </div>
+        <div className="header-right">
+          <select 
+            value={template} 
+            onChange={(e) => setTemplate(e.target.value)}
+            className="header-select"
+          >
+            <option value="colored">Modern Colored</option>
+            <option value="plain">Classic Plain</option>
+            <option value="minimal">Minimalist</option>
+            <option value="elegant">Elegant Dark</option>
+          </select>
+          <button className="btn btn-primary" onClick={handlePrint}>
+            <Download size={16} /> Download PDF
+          </button>
           {user ? (
-            <div style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}>
-              <button className="btn btn-outline" onClick={() => setShowHistoryModal(true)} style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}>
-                <History size={14} /> History
+            <div className="profile-dropdown-container">
+              <button 
+                className="btn btn-outline profile-btn" 
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+              >
+                <User size={16} /> Profile
               </button>
-              <button className="btn btn-outline" onClick={handleSignOut} style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}>
-                <LogOut size={14} /> Sign Out
-              </button>
+              {showProfileMenu && (
+                <div className="profile-dropdown-menu">
+                  <button className="dropdown-item" onClick={() => { setShowProfileMenu(false); setShowHistoryModal(true); }}>
+                    <History size={16} /> History
+                  </button>
+                  <button className="dropdown-item danger" onClick={() => { setShowProfileMenu(false); handleSignOut(); }}>
+                    <LogOut size={16} /> Sign Out
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <button className="btn btn-outline" onClick={() => setShowAuthModal(true)} style={{ fontSize: '0.8rem', padding: '0.4rem 0.8rem' }}>
-              Sign In
+            <button className="btn btn-outline" onClick={() => setShowAuthModal(true)}>
+              <User size={16} /> Sign In
             </button>
           )}
         </div>
-        <ResumeForm data={resumeData} onChange={setResumeData} />
-      </div>
+      </header>
 
-      <div className="preview-section">
-        <div className="preview-controls">
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <LayoutTemplate size={20} color="var(--primary-blue)" />
-            <select 
-              value={template} 
-              onChange={(e) => setTemplate(e.target.value)}
-              style={{
-                padding: '0.5rem',
-                borderRadius: '6px',
-                border: '1px solid var(--border-color)',
-                fontFamily: 'Inter'
-              }}
-            >
-              <option value="colored">Modern Colored (Blue & White)</option>
-              <option value="plain">Classic Plain</option>
-            </select>
+      {/* ========================================== */}
+      {/* MAIN APP LAYOUT (SPLIT VIEW) */}
+      {/* ========================================== */}
+      <div className="app-container">
+        {/* Left Side: Form Input Area */}
+        <div className="sidebar">
+          <div style={{ marginBottom: '1.5rem' }}>
+            <p style={{ color: 'var(--text-muted)' }}>Fill in your details to generate a professional resume.</p>
           </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <button className="btn btn-primary" onClick={handlePrint}>
-              <Download size={18} />
-              Download PDF
-            </button>
-          </div>
+          <ResumeForm data={resumeData} onChange={setResumeData} />
         </div>
 
-        <div className="template-wrapper">
-          <div className="template-container" ref={componentRef}>
-            {template === 'colored' ? (
-               <ColoredTemplate data={resumeData} />
-            ) : (
-               <PlainTemplate data={resumeData} />
-            )}
+        {/* Right Side: Live PDF Preview Area */}
+        <div className="preview-section">          
+          <div className="template-wrapper">
+            <div className="template-container" ref={componentRef}>
+              {template === 'colored' && <ColoredTemplate data={resumeData} />}
+              {template === 'plain' && <PlainTemplate data={resumeData} />}
+              {template === 'minimal' && <MinimalTemplate data={resumeData} />}
+              {template === 'elegant' && <ElegantTemplate data={resumeData} />}
+            </div>
           </div>
         </div>
       </div>
 
+      {/* ========================================== */}
+      {/* OVERLAY MODALS (Authentication & History) */}
+      {/* ========================================== */}
       <AuthModal 
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)} 
@@ -191,7 +231,7 @@ function App() {
           setTemplate(tmpl);
         }}
       />
-    </div>
+    </>
   );
 }
 

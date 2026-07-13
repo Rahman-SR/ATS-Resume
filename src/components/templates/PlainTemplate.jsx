@@ -2,7 +2,7 @@ import React from 'react';
 import './PlainTemplate.css';
 
 const PlainTemplate = ({ data }) => {
-  const { personalInfo, education, experience, practicalExperience, certifications, skills, languages } = data;
+  const { personalInfo, education, experience, practicalExperience, certifications, skills, languages, customDetails } = data;
 
   const skillArray = skills ? skills.split(',').map(s => s.trim()).filter(Boolean) : [];
 
@@ -10,8 +10,12 @@ const PlainTemplate = ({ data }) => {
     <div className="plain-template">
       <div className="plain-header">
         <div className="plain-name">{personalInfo.fullName || 'Your Name'}</div>
+        {personalInfo.jobTitle && <div className="plain-job-title">{personalInfo.jobTitle}</div>}
         <div className="plain-contact">
-          {personalInfo.email} {personalInfo.phone && `| ${personalInfo.phone}`} {personalInfo.address && `| ${personalInfo.address}`}
+          {personalInfo.email} 
+          {personalInfo.phone && ` | ${personalInfo.phone}`} 
+          {personalInfo.address && ` | ${personalInfo.address}`}
+          {personalInfo.socialLink && ` | ${personalInfo.socialPlatform}: ${personalInfo.socialLink}`}
         </div>
       </div>
 
@@ -101,6 +105,15 @@ const PlainTemplate = ({ data }) => {
           <p className="plain-text">{languages}</p>
         </div>
       )}
+
+      {customDetails && customDetails.length > 0 && customDetails.map((detail, index) => (
+        detail.label && detail.value ? (
+          <div key={detail.id || index}>
+            <div className="plain-section-title">{detail.label}</div>
+            <p className="plain-text">{detail.value}</p>
+          </div>
+        ) : null
+      ))}
     </div>
   );
 };

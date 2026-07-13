@@ -13,9 +13,49 @@
 .form-section h2 {
   font-size: 1.25rem;
   color: var(--primary-blue);
-  border-bottom: 2px solid var(--primary-blue-light);
+  margin: 0;
+}
+
+/* Clickable section header for collapsible sections */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
   padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-blue-light);
   margin-bottom: 0.5rem;
+  user-select: none;
+  transition: opacity 0.2s;
+}
+
+.section-header:hover {
+  opacity: 0.8;
+}
+
+.section-toggle-icon {
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+/* Collapsible section body with smooth transition */
+.section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 2000px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+}
+
+.section-body.collapsed {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
 }
 
 .form-row {
@@ -38,16 +78,17 @@
   color: var(--text-muted);
 }
 
-.input-group input, .input-group textarea {
+.input-group input, .input-group textarea, .input-group select {
   padding: 0.6rem 0.8rem;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 0.95rem;
   outline: none;
   transition: border-color 0.2s;
+  background-color: white;
 }
 
-.input-group input:focus, .input-group textarea:focus {
+.input-group input:focus, .input-group textarea:focus, .input-group select:focus {
   border-color: var(--primary-blue);
   box-shadow: 0 0 0 3px var(--primary-blue-light);
 }

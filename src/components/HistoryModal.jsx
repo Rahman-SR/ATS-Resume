@@ -4,6 +4,9 @@ import { X, Edit2, Trash2, Clock } from 'lucide-react';
 import './HistoryModal.css';
 
 const HistoryModal = ({ isOpen, onClose, user, onLoadResume }) => {
+  // ==========================================
+  // STATE MANAGEMENT
+  // ==========================================
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -14,6 +17,10 @@ const HistoryModal = ({ isOpen, onClose, user, onLoadResume }) => {
     }
   }, [isOpen, user]);
 
+  // ==========================================
+  // DATA FETCHING & ACTIONS
+  // ==========================================
+
   // Fetch the user's past resumes from Supabase, ordered by most recent first
   const fetchHistory = async () => {
     setLoading(true);
@@ -22,7 +29,8 @@ const HistoryModal = ({ isOpen, onClose, user, onLoadResume }) => {
         .from('resumes')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(15);
         
       if (error) throw error;
       setHistory(data || []);

@@ -1,0 +1,154 @@
+:root {
+  --min-font: 'Inter', sans-serif;
+  --min-text: #333333;
+  --min-light: #666666;
+  --min-border: #e5e5e5;
+  --min-spacing: 20px;
+}
+
+.minimal-template {
+  font-family: var(--min-font);
+  color: var(--min-text);
+  padding: 40px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background: white;
+  line-height: 1.5;
+}
+
+.minimal-header {
+  margin-bottom: 30px;
+}
+
+.minimal-name {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  letter-spacing: -0.5px;
+}
+
+.minimal-job-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--min-light);
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.minimal-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 12px;
+  color: var(--min-light);
+}
+
+.minimal-contact span {
+  display: flex;
+  align-items: center;
+}
+
+.minimal-contact span:not(:last-child)::after {
+  content: "•";
+  margin-left: 15px;
+  color: var(--min-border);
+}
+
+.minimal-section {
+  margin-bottom: 25px;
+}
+
+.minimal-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--min-border);
+  padding-bottom: 8px;
+  margin: 0 0 15px 0;
+}
+
+.minimal-summary {
+  font-size: 14px;
+  color: var(--min-light);
+  margin: 0;
+}
+
+.minimal-item {
+  margin-bottom: 15px;
+}
+.minimal-item:last-child {
+  margin-bottom: 0;
+}
+
+.minimal-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.minimal-role {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.minimal-date {
+  font-size: 12px;
+  color: var(--min-light);
+}
+
+.minimal-company {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--min-light);
+  margin-bottom: 5px;
+}
+
+.minimal-desc {
+  font-size: 13px;
+  color: var(--min-text);
+  margin: 0;
+}
+
+.minimal-grid-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.minimal-grid-block {
+  margin-bottom: 0;
+}
+
+.minimal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.minimal-tag {
+  font-size: 12px;
+  background: #f4f4f5;
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: var(--min-text);
+}
+
+.minimal-cert-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.minimal-cert-name {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.minimal-cert-issuer {
+  font-size: 12px;
+  color: var(--min-light);
+}

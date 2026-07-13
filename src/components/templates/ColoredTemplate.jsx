@@ -2,7 +2,7 @@ import React from 'react';
 import './ColoredTemplate.css';
 
 const ColoredTemplate = ({ data }) => {
-  const { personalInfo, education, experience, practicalExperience, certifications, skills, languages } = data;
+  const { personalInfo, education, experience, practicalExperience, certifications, skills, languages, customDetails } = data;
 
   const skillArray = skills ? skills.split(',').map(s => s.trim()).filter(Boolean) : [];
   const langArray = languages ? languages.split(',').map(l => l.trim()).filter(Boolean) : [];
@@ -12,12 +12,18 @@ const ColoredTemplate = ({ data }) => {
       {/* Sidebar */}
       <div className="colored-sidebar">
         <div className="colored-name">{personalInfo.fullName || 'Your Name'}</div>
-        <div className="colored-role-title">Professional</div>
+        {personalInfo.jobTitle && <div className="colored-role-title">{personalInfo.jobTitle}</div>}
 
         <div className="colored-sidebar-title">Contact</div>
         {personalInfo.email && <div className="colored-contact-item">{personalInfo.email}</div>}
         {personalInfo.phone && <div className="colored-contact-item">{personalInfo.phone}</div>}
         {personalInfo.address && <div className="colored-contact-item">{personalInfo.address}</div>}
+        {personalInfo.socialLink && (
+          <div className="colored-contact-item">
+            <strong>{personalInfo.socialPlatform}:</strong><br/>
+            {personalInfo.socialLink}
+          </div>
+        )}
 
         {skillArray.length > 0 && (
           <>
@@ -112,6 +118,15 @@ const ColoredTemplate = ({ data }) => {
             ))}
           </>
         )}
+
+        {customDetails && customDetails.length > 0 && customDetails.map((detail, index) => (
+          detail.label && detail.value ? (
+            <React.Fragment key={detail.id || index}>
+              <div className="colored-main-title">{detail.label}</div>
+              <p className="colored-text">{detail.value}</p>
+            </React.Fragment>
+          ) : null
+        ))}
       </div>
     </div>
   );
