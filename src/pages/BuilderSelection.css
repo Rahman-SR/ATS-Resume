@@ -1,0 +1,135 @@
+.selection-page {
+  min-height: 100vh;
+  background-color: var(--bg-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem;
+}
+
+.selection-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+}
+
+.selection-header .btn-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.selection-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.selection-header p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+}
+
+.selection-cards {
+  display: flex;
+  gap: 2rem;
+  max-width: 900px;
+  width: 100%;
+}
+
+.select-card {
+  flex: 1;
+  background: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.select-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: #cbd5e1;
+}
+
+.select-card.premium {
+  border-color: var(--primary-blue);
+  box-shadow: var(--shadow-md);
+}
+
+.select-card.premium:hover {
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-blue-hover);
+}
+
+.card-badge {
+  position: absolute;
+  top: -12px;
+  background: var(--primary-blue);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.select-icon {
+  margin-bottom: 1.5rem;
+  color: var(--primary-blue);
+}
+
+.select-card h3 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.select-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  height: 48px; /* Fixed height for alignment */
+}
+
+.select-features {
+  list-style: none;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 3rem;
+  flex: 1;
+}
+
+.select-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.full-width {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .selection-cards {
+    flex-direction: column;
+  }
+  
+  .selection-header .btn-icon {
+    position: static;
+    transform: none;
+    margin-bottom: 1rem;
+  }
+}

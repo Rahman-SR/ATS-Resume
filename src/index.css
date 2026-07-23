@@ -1,18 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
+  /* Core SaaS Colors */
   --primary-blue: #2563eb;
   --primary-blue-hover: #1d4ed8;
   --primary-blue-light: #eff6ff;
-  --text-dark: #1e293b;
+  --text-dark: #0f172a;
   --text-muted: #64748b;
   --bg-white: #ffffff;
   --bg-gray: #f8fafc;
   --border-color: #e2e8f0;
-  --border-radius: 8px;
+  
+  /* Radii & Shadows */
+  --border-radius: 12px;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Fonts */
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
 }
 
 * {
@@ -22,20 +30,21 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--bg-gray);
   color: var(--text-dark);
   line-height: 1.5;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-weight: 700;
   line-height: 1.2;
 }
 
 button {
   cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   border: none;
   background: none;
   transition: all 0.2s;
